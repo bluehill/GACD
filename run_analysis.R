@@ -101,7 +101,14 @@ for(i in 1:10299){
 # 5.Creates a second, independent tidy data set with the average of each
 # variable for each activity and each subject.
 
+
 require(plyr)
+#the reshaping of the data only works well with sort columns as factors:
 tidydata2$subject <- as.factor(tidydata2$subject)
+tidydata2$activity <- as.factor(tidydata2$activity)
+
+#reshape by activity and subject, and the mean of all other columns:
 tidyData  <- ddply(tidydata2, .(activity, subject), numcolwise(mean))
-write.csv(tidyData,file='data/tidydata.csv')
+
+library(data.table) # to write the final table:
+write.table(tidyData,file='tidydata.txt')
